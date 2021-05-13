@@ -1,43 +1,17 @@
-import React, { useEffect, useState } from 'react';
+import React from 'react';
 import ReactDOM from 'react-dom';
 import App from './App';
-import { GlobalContext, IGlobalContext } from './components/GlobalContext';
-import { ILocalContext, LocalContext } from './components/LocalContext';
 import './index.css';
+import { Provider } from 'react-redux';
+import store from './store';
 
-const GlobalWrapper = (props: React.PropsWithChildren<{}>) => {
-  const rawLocalStorageValue = localStorage.getItem('watcher-global-context');
-  const defaultValue = rawLocalStorageValue
-    ? JSON.parse(rawLocalStorageValue)
-    : { address: '' };
-  const [address, setAddress] = useState<string>(defaultValue.address);
-  const globalContext: IGlobalContext = {
-    address,
-    setAddress,
-  };
-  useEffect(() => {
-    localStorage.setItem('watcher-global-context', JSON.stringify({ address }));
-  }, [address]);
-
-  const [tokens, setTokens] = useState<string[]>([]);
-  const localContext: ILocalContext = {
-    tokens,
-    setTokens,
-  };
-  return (
-    <GlobalContext.Provider value={globalContext}>
-      <LocalContext.Provider value={localContext}>
-        {props.children}
-      </LocalContext.Provider>
-    </GlobalContext.Provider>
-  );
-};
+console.log(store.getState());
 
 ReactDOM.render(
   <React.StrictMode>
-    <GlobalWrapper>
+    <Provider store={store}>
       <App />
-    </GlobalWrapper>
+    </Provider>
   </React.StrictMode>,
   document.getElementById('root'),
 );

@@ -1,5 +1,4 @@
-import { encodeQuery } from '../../utils/encodeQuery';
-import { APIKEY } from '../../constants';
+import { encodeQuery, APIKEY } from '@utils';
 import type { RawTransaction } from './types';
 
 export const fetchTransaction = async (
@@ -19,6 +18,9 @@ export const fetchTransaction = async (
   if (response.message === 'OK') {
     return response.result;
   } else {
-    throw Error(`API error [${response.message}]`);
+    throw Error(`fetchTransaction API error [${response.message}]`);
   }
 };
+
+export const getTokensList = (raw: RawTransaction[]) =>
+  Array.from(new Set(raw.map((txn) => txn.contractAddress)));
