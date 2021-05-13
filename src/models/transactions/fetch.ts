@@ -19,6 +19,9 @@ export const fetchTransaction = async (
   if (response.message === 'OK') {
     return response.result;
   } else {
-    throw Error(`API error [${response.message}]`);
+    throw Error(`fetchTransaction API error [${response.message}]`);
   }
 };
+
+export const getTokensList = (raw: RawTransaction[]) =>
+  Array.from(new Set(raw.map((txn) => txn.contractAddress)));

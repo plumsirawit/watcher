@@ -1,2 +1,2 @@
 export * from './transform';
-export type { TokenData } from './types';
+export type { TokenData, UserData } from './types';

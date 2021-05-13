@@ -1,8 +1,10 @@
 import React, { useContext } from 'react';
-import { GlobalContext } from './GlobalContext';
 import styled from 'styled-components';
-import { fetchTransaction, selectTokensList } from '../models/transactions';
-import { LocalContext } from './LocalContext';
+import { useDispatch, useSelector, useStore } from 'react-redux';
+import { setAddress } from '../store/address';
+import { selectAddress } from '../store/address/selectors';
+import type { AppDispatch } from '../store';
+import { requestContracts } from '../store/contracts';
 
 const AddressInput = styled.input`
   flex: 1;
@@ -15,12 +17,14 @@ const AddressInput = styled.input`
 `;
 
 export const AddressBar = () => {
-  const { address, setAddress } = useContext(GlobalContext);
+  const dispatch = useDispatch<AppDispatch>();
+  const address = useSelector(selectAddress);
+
   return (
     <AddressInput
       type="text"
       value={address}
-      onChange={(e) => setAddress(e.target.value)}
+      onChange={(e) => dispatch(setAddress(e.target.value))}
     />
   );
 };
@@ -36,15 +40,13 @@ const AddressButton = styled.button`
 `;
 
 export const AddressGroup = () => {
-  const { address } = useContext(GlobalContext);
-  const { setTokens } = useContext(LocalContext);
+  const dispatch = useDispatch<AppDispatch>();
   return (
     <AddressDiv>
       <AddressBar />
       <AddressButton
-        onClick={async () => {
-          const txns = await fetchTransaction(address);
-          setTokens(selectTokensList(txns));
+        onClick={() => {
+          dispatch(requestContracts());
         }}
       />
     </AddressDiv>
