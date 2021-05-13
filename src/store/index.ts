@@ -2,7 +2,7 @@ import createSagaMiddleware from 'redux-saga';
 import rootSaga from './sagas';
 import { configureStore, getDefaultMiddleware } from '@reduxjs/toolkit';
 import { addressSlice } from './address';
-import { contractsSlice } from './contracts';
+import { transactionsSlice } from './transactions';
 
 const sagaMiddleware = createSagaMiddleware();
 const middleware = [...getDefaultMiddleware({ thunk: false }), sagaMiddleware];
@@ -10,7 +10,7 @@ const middleware = [...getDefaultMiddleware({ thunk: false }), sagaMiddleware];
 const store = configureStore({
   reducer: {
     address: addressSlice.reducer,
-    contracts: contractsSlice.reducer,
+    transactions: transactionsSlice.reducer,
   },
   middleware,
 });

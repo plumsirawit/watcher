@@ -8,3 +8,5 @@ export interface TokenData {
 export interface UserData {
   amount: number;
 }
+
+export type TokenUserData = TokenData & UserData;

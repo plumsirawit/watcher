@@ -1,2 +1,2 @@
 export * from './encodeQuery';
-export * from './constants';
+export * from '../constants';

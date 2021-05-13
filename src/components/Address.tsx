@@ -3,7 +3,7 @@ import styled from 'styled-components';
 import { useDispatch, useSelector, useStore } from 'react-redux';
 import { setAddress, selectAddress } from '@store/address';
 import type { AppDispatch } from '@store';
-import { requestContracts } from '@store/contracts';
+import { requestBEP20Transactions } from '@store/transactions';
 
 const AddressInput = styled.input`
   flex: 1;
@@ -45,7 +45,7 @@ export const AddressGroup = () => {
       <AddressBar />
       <AddressButton
         onClick={() => {
-          dispatch(requestContracts());
+          dispatch(requestBEP20Transactions());
         }}
       />
     </AddressDiv>

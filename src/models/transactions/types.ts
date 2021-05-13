@@ -1,4 +1,4 @@
-export type RawTransaction = {
+export type RawBEP20Transaction = {
   blockNumber: string;
   timeStamp: string;
   hash: string;
@@ -19,3 +19,34 @@ export type RawTransaction = {
   input: string;
   confirmations: string;
 };
+
+export interface UserBEP20TokensInfo {
+  tokens: Record<string, number>; // amount of each tokens
+  fee: number;
+}
+
+export type RawBNBTransaction = {
+  blockNumber: string;
+  timeStamp: string;
+  hash: string;
+  nonce: string;
+  blockHash: string;
+  transactionIndex: string;
+  from: string;
+  to: string;
+  value: string;
+  gas: string;
+  gasPrice: string;
+  isError: string;
+  txreceipt_status: string;
+  input: string;
+  contractAddress: string;
+  cumulativeGasUsed: string;
+  gasUsed: string;
+  confirmations: string;
+};
+
+export interface UserBNBTokenInfo {
+  amount: number;
+  fee: number;
+}

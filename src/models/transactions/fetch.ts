@@ -1,9 +1,9 @@
 import { encodeQuery, APIKEY } from '@utils';
-import type { RawTransaction } from './types';
+import type { RawBEP20Transaction, RawBNBTransaction } from './types';
 
-export const fetchTransaction = async (
+export const fetchBEP20Transactions = async (
   address: string,
-): Promise<RawTransaction[]> => {
+): Promise<RawBEP20Transaction[]> => {
   const result = await fetch(
     'https://api.bscscan.com/api?' +
       encodeQuery({
@@ -18,9 +18,27 @@ export const fetchTransaction = async (
   if (response.message === 'OK') {
     return response.result;
   } else {
-    throw Error(`fetchTransaction API error [${response.message}]`);
+    throw Error(`fetchBEP20Transactions API error [${response.message}]`);
   }
 };
 
-export const getTokensList = (raw: RawTransaction[]) =>
-  Array.from(new Set(raw.map((txn) => txn.contractAddress)));
+export const fetchBNBTransactions = async (
+  address: string,
+): Promise<RawBNBTransaction[]> => {
+  const result = await fetch(
+    'https://api.bscscan.com/api?' +
+      encodeQuery({
+        module: 'account',
+        action: 'txlist',
+        address,
+        sort: 'asc',
+        apikey: APIKEY,
+      }),
+  );
+  const response = await result.json();
+  if (response.message === 'OK') {
+    return response.result;
+  } else {
+    throw Error(`fetchBNBTransactions API error [${response.message}]`);
+  }
+};
