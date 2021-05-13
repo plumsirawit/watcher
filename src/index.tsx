@@ -19,7 +19,7 @@ const GlobalWrapper = (props: React.PropsWithChildren<{}>) => {
     localStorage.setItem('watcher-global-context', JSON.stringify({ address }));
   }, [address]);
 
-  const [tokens, setTokens] = useState<Set<string>>(new Set());
+  const [tokens, setTokens] = useState<string[]>([]);
   const localContext: ILocalContext = {
     tokens,
     setTokens,

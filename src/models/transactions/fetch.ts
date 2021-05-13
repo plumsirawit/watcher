@@ -1,12 +1,6 @@
+import { encodeQuery } from '../../utils/encodeQuery';
 import { APIKEY } from '../../constants';
 import type { RawTransaction } from './types';
-
-const encodeQuery = (params: Record<string, string>) =>
-  Object.keys(params)
-    .map((key) => {
-      return encodeURIComponent(key) + '=' + encodeURIComponent(params[key]);
-    })
-    .join('&');
 
 export const fetchTransaction = async (
   address: string,
