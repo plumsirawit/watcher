@@ -1,5 +1,4 @@
-import { APIKEY } from '../../constants';
-import { encodeQuery } from '../../utils/encodeQuery';
+import { encodeQuery, APIKEY } from '@utils';
 import type { TokenData, UserData } from './types';
 
 export const getTokenData = async (

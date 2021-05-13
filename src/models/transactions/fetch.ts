@@ -1,5 +1,4 @@
-import { encodeQuery } from '../../utils/encodeQuery';
-import { APIKEY } from '../../constants';
+import { encodeQuery, APIKEY } from '@utils';
 import type { RawTransaction } from './types';
 
 export const fetchTransaction = async (

@@ -11,3 +11,4 @@ export const addressSlice = createSlice({
 });
 
 export const { setAddress } = addressSlice.actions;
+export * from './selectors';

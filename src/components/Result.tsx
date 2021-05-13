@@ -4,7 +4,7 @@ import {
   selectContractAddresses,
   selectTokenData,
   selectUserData,
-} from '../store/contracts/selectors';
+} from '@store/contracts';
 
 interface IResultProps {}
 export const Result = (props: IResultProps) => {

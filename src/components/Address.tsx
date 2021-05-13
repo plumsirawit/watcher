@@ -1,10 +1,9 @@
 import React, { useContext } from 'react';
 import styled from 'styled-components';
 import { useDispatch, useSelector, useStore } from 'react-redux';
-import { setAddress } from '../store/address';
-import { selectAddress } from '../store/address/selectors';
-import type { AppDispatch } from '../store';
-import { requestContracts } from '../store/contracts';
+import { setAddress, selectAddress } from '@store/address';
+import type { AppDispatch } from '@store';
+import { requestContracts } from '@store/contracts';
 
 const AddressInput = styled.input`
   flex: 1;

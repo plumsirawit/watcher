@@ -1,5 +1,5 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
-import type { TokenData, UserData } from '../../models/token';
+import type { TokenData, UserData } from '@models/token';
 
 export const contractsSlice = createSlice({
   name: 'contracts',
@@ -53,3 +53,5 @@ export const {
   userDataReceived,
   userDataFailed,
 } = contractsSlice.actions;
+
+export * from './selectors';

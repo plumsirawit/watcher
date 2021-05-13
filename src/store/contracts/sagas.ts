@@ -6,13 +6,13 @@ import {
   takeEvery,
   takeLatest,
 } from '@redux-saga/core/effects';
-import type { TokenData, UserData } from '../../models/token';
+import type { TokenData, UserData } from '@models/token';
 import {
   fetchTransaction,
   getTokensList,
   RawTransaction,
-} from '../../models/transactions';
-import { selectAddress } from '../address/selectors';
+} from '@models/transactions';
+import { selectAddress } from '@store/address';
 import {
   requestContracts,
   contractsReceived,

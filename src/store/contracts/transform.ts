@@ -1,5 +1,5 @@
-import type { UserData } from '../../models/token/types';
-import { getGetUserData, getTokenData, TokenData } from '../../models/token';
+import type { UserData } from '@models/token';
+import { getGetUserData, getTokenData, TokenData } from '@models/token';
 
 export const getTokensDataFromContractAddresses = async (
   contractAddresses: string[],
