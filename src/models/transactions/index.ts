@@ -4,4 +4,5 @@ export type {
   UserBEP20TokensInfo,
   RawBNBTransaction,
   UserBNBTokenInfo,
+  RawInternalTransaction,
 } from './types';

@@ -3,6 +3,7 @@ import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 import type {
   RawBEP20Transaction,
   RawBNBTransaction,
+  RawInternalTransaction,
 } from '@models/transactions';
 
 export const transactionsSlice = createSlice({
@@ -10,6 +11,7 @@ export const transactionsSlice = createSlice({
   initialState: {
     BEP20Transactions: [] as RawBEP20Transaction[],
     BNBTransactions: [] as RawBNBTransaction[],
+    internalTransactions: [] as RawInternalTransaction[],
     error: '',
   },
   reducers: {
@@ -37,6 +39,18 @@ export const transactionsSlice = createSlice({
       ...state,
       error: action.payload,
     }),
+    requestInternalTransactions: (state) => state,
+    internalTransactionsReceived: (
+      state,
+      action: PayloadAction<RawInternalTransaction[]>,
+    ) => ({
+      ...state,
+      internalTransactions: action.payload,
+    }),
+    internalTransactionsFailed: (state, action: PayloadAction<string>) => ({
+      ...state,
+      error: action.payload,
+    }),
   },
 });
 
@@ -47,6 +61,9 @@ export const {
   requestBNBTransactions,
   BNBTransactionsReceived,
   BNBTransactionsFailed,
+  requestInternalTransactions,
+  internalTransactionsReceived,
+  internalTransactionsFailed,
 } = transactionsSlice.actions;
 
 export * from './selectors';
