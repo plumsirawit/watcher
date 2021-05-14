@@ -7,7 +7,9 @@ import {
   requestBEP20Transactions,
   requestBNBTransactions,
 } from '@store/transactions';
+import { Input } from '@pancakeswap-libs/uikit';
 
+/*
 const AddressInput = styled.input`
   flex: 1;
   margin: 10px 0px 10px 10vw;
@@ -17,19 +19,7 @@ const AddressInput = styled.input`
   border-radius: 1em;
   background: #23eab2;
 `;
-
-export const AddressBar = () => {
-  const dispatch = useDispatch<AppDispatch>();
-  const address = useSelector(selectAddress);
-
-  return (
-    <AddressInput
-      type="text"
-      value={address}
-      onChange={(e) => dispatch(setAddress(e.target.value))}
-    />
-  );
-};
+*/
 
 const AddressDiv = styled.div`
   display: flex;
@@ -45,7 +35,6 @@ export const AddressGroup = () => {
   const dispatch = useDispatch<AppDispatch>();
   return (
     <AddressDiv>
-      <AddressBar />
       <AddressButton
         onClick={() => {
           dispatch(requestBEP20Transactions());
