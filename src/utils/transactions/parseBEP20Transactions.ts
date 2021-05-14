@@ -22,8 +22,8 @@ class BEP20TransactionsParser extends TransactionParser<
     if (isOut) {
       this.state.tokens[tokenContract] =
         (this.state.tokens[tokenContract] ?? 0) - value;
+      this.state.fee += fee;
     }
-    this.state.fee += fee;
     return this.state;
   }
 }

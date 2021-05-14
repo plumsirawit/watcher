@@ -16,8 +16,8 @@ class BNBTransactionsParser extends TransactionParser<
     }
     if (isOut) {
       this.state.amount -= value;
+      this.state.fee += fee;
     }
-    this.state.fee += fee;
     return this.state;
   }
 }
