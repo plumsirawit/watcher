@@ -1,46 +1,59 @@
-import React, { useContext } from 'react';
+import React from 'react';
 import styled from 'styled-components';
-import { useDispatch, useSelector, useStore } from 'react-redux';
-import { setAddress, selectAddress } from '@store/address';
+import { useDispatch } from 'react-redux';
 import type { AppDispatch } from '@store';
 import {
   requestBEP20Transactions,
   requestBNBTransactions,
 } from '@store/transactions';
-import { Input } from '@pancakeswap-libs/uikit';
+import { Button, CardBody, Flex, Heading, Text } from '@pancakeswap-libs/uikit';
+import { AutoColumn } from '@components/Column';
+import { AddressInputPanel } from '@components/AddressInputPanel';
 
-/*
-const AddressInput = styled.input`
+const StyledPageHeader = styled.div`
+  border-bottom: 1px solid ${({ theme }) => theme.colors.borderColor};
+  padding: 24px;
+`;
+
+const Details = styled.div`
   flex: 1;
-  margin: 10px 0px 10px 10vw;
-  padding: 10px;
-  outline: none;
-  border: 0px;
-  border-radius: 1em;
-  background: #23eab2;
-`;
-*/
-
-const AddressDiv = styled.div`
-  display: flex;
-  width: 100%;
 `;
 
-const AddressButton = styled.button`
-  min-width: 5vmin;
-  margin: 10px 10vw 10px 10px;
+const BottomGrouping = styled.div`
+  margin-top: 1rem;
 `;
 
 export const AddressGroup = () => {
   const dispatch = useDispatch<AppDispatch>();
   return (
-    <AddressDiv>
-      <AddressButton
-        onClick={() => {
-          dispatch(requestBEP20Transactions());
-          dispatch(requestBNBTransactions());
-        }}
-      />
-    </AddressDiv>
+    <>
+      <StyledPageHeader>
+        <Flex alignItems="center">
+          <Details>
+            <Heading mb="8px">Watcher</Heading>
+            <Text color="textSubtle" fontSize="14px">
+              Observe and analyze tokens in an instant
+            </Text>
+          </Details>
+        </Flex>
+      </StyledPageHeader>
+      <CardBody>
+        <AutoColumn gap="md">
+          <AddressInputPanel />
+          <BottomGrouping>
+            <Button
+              onClick={() => {
+                dispatch(requestBEP20Transactions());
+                dispatch(requestBNBTransactions());
+              }}
+              variant="primary"
+              width="100%"
+            >
+              Query
+            </Button>
+          </BottomGrouping>
+        </AutoColumn>
+      </CardBody>
+    </>
   );
 };
