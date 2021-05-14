@@ -1,7 +1,23 @@
 import React from 'react';
 import { useSelector } from 'react-redux';
-import { selectContractAddresses } from '@store/transactions';
 import { selectTokenUserData } from '@store/information';
+import { CardMidContent, RegularCard, SpecialCard } from '@components/Card';
+import styled from 'styled-components';
+import {
+  ArrowForwardIcon,
+  CardBody,
+  Flex,
+  Heading,
+} from '@pancakeswap-libs/uikit';
+
+const ResultContainer = styled.div`
+  width: 100%;
+  max-width: 900px;
+
+  & > div {
+    margin-top: 50px;
+  }
+`;
 
 interface IResultProps {}
 export const Result = (props: IResultProps) => {
@@ -11,25 +27,48 @@ export const Result = (props: IResultProps) => {
     (pre, [_, { amount, price }]) => pre + amount * Number(price?.price ?? 0),
     0,
   );
-  const items = tokens.map(([contract, { amount, price }]) => {
-    return (
-      price && (
-        <div key={contract}>
-          <div>{contract}</div>
-          <div>
-            {price.name}({price.symbol})
+  const items = tokens
+    .sort(
+      (a, b) =>
+        b[1].amount * Number(b[1].price?.price ?? 0) -
+        a[1].amount * Number(a[1].price?.price ?? 0),
+    )
+    .map(([contract, { amount, price }]) => {
+      return (
+        price &&
+        amount * Number(price.price) > 0.01 && (
+          <div key={contract}>
+            <RegularCard>
+              <CardBody>
+                <Heading color="contrast">
+                  {price.name} ({price.symbol})
+                </Heading>
+                <Flex justifyContent="space-between">
+                  <CardMidContent>
+                    $ {(amount * Number(price.price)).toFixed(2)}
+                  </CardMidContent>
+                  <ArrowForwardIcon mt={30} color="primary" />
+                </Flex>
+              </CardBody>
+            </RegularCard>
           </div>
-          <div>{price.price}</div>
-          <div>{amount}</div>
-          <div>{amount * Number(price.price)}</div>
-        </div>
-      )
-    );
-  });
+        )
+      );
+    });
   return (
-    <div>
-      BNBVALUE {tokenUserData.BNBAmount}, {tokenUserData.BNBPrice} <br />
-      hello {items} {netWorth}
-    </div>
+    <ResultContainer>
+      <SpecialCard>
+        <CardBody>
+          <Heading color="contrast">Binance Coin (BNB)</Heading>
+          <Flex justifyContent="space-between">
+            <CardMidContent color="invertedContrast">
+              $ {tokenUserData.BNBAmount * tokenUserData.BNBPrice}
+            </CardMidContent>
+            <ArrowForwardIcon mt={30} color="primary" />
+          </Flex>
+        </CardBody>
+      </SpecialCard>
+      {items}
+    </ResultContainer>
   );
 };

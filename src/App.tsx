@@ -11,7 +11,6 @@ const App = () => {
       <AppBody>
         <AddressGroup />
       </AppBody>
-      <AppBody>a</AppBody>
       <Result />
     </Container>
   );
