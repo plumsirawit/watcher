@@ -11,7 +11,7 @@ export abstract class TransactionParser<T extends BaseTransaction, U> {
 
   abstract parseEach(txn: T): U;
   public parseAll(): U {
-    this.txns.forEach(this.parseEach);
+    this.txns.forEach(this.parseEach, this);
     return this.state;
   }
 }
