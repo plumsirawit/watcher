@@ -1,14 +1,18 @@
+import type { TokenPrice } from '@models/token';
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 
 export const informationSlices = createSlice({
   name: 'information',
   initialState: {
-    prices: {},
+    prices: {} as Record<string, TokenPrice>,
     BNBPrice: 0,
     error: '',
   },
   reducers: {
-    pricesReceived: (state, action: PayloadAction<Record<string, number>>) => ({
+    pricesReceived: (
+      state,
+      action: PayloadAction<Record<string, TokenPrice>>,
+    ) => ({
       ...state,
       prices: action.payload,
     }),

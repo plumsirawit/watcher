@@ -1,3 +1,4 @@
+import type { TokenPrice } from '@models/token';
 import type { RootState } from '@store';
 import {
   selectUserBNBTokenInfo,
@@ -18,7 +19,7 @@ export const selectUserInfo = createSelector(
 );
 
 export const selectPrices = (state: RootState) => ({
-  prices: state.information.prices as Record<string, number>,
+  prices: state.information.prices as Record<string, TokenPrice>,
   BNBPrice: state.information.BNBPrice,
 });
 

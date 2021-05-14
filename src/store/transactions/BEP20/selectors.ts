@@ -18,8 +18,8 @@ export const selectUserBEP20TokensInfo = createSelector(
         const fee = (Number(cur.gasUsed) * Number(cur.gasPrice)) / 1e18;
         const value =
           Number(cur.value) / Math.pow(10, Number(cur.tokenDecimal));
-        const isIn = cur.to === address;
-        const isOut = cur.from === address;
+        const isIn = cur.to.toLowerCase() === address.toLowerCase();
+        const isOut = cur.from.toLowerCase() === address.toLowerCase();
         const tokenContract = cur.contractAddress;
         if (isIn === isOut) {
           // @todo: fix, count fees
@@ -28,7 +28,7 @@ export const selectUserBEP20TokensInfo = createSelector(
           return {
             tokens: {
               ...pre.tokens,
-              tokenContract: pre.tokens[tokenContract] + value,
+              [tokenContract]: (pre.tokens[tokenContract] ?? 0) + value,
             },
             fee: pre.fee + fee,
           };
@@ -36,7 +36,7 @@ export const selectUserBEP20TokensInfo = createSelector(
           return {
             tokens: {
               ...pre.tokens,
-              tokenContract: pre.tokens[tokenContract] - value,
+              [tokenContract]: (pre.tokens[tokenContract] ?? 0) - value,
             },
             fee: pre.fee + fee,
           };

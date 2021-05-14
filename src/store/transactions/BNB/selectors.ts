@@ -19,8 +19,8 @@ export const selectUserBNBTokenInfo = createSelector(
       (pre, cur) => {
         const fee = (Number(cur.gasUsed) * Number(cur.gasPrice)) / 1e18;
         const value = Number(cur.value) / 1e18;
-        const isIn = cur.to === address;
-        const isOut = cur.from === address;
+        const isIn = cur.to.toLowerCase() === address.toLowerCase();
+        const isOut = cur.from.toLowerCase() === address.toLowerCase();
         if (isIn === isOut) {
           // @todo: fix, count fees
           return pre;
