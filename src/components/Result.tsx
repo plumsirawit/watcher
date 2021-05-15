@@ -1,6 +1,5 @@
 import React from 'react';
 import { useSelector } from 'react-redux';
-import { selectTokenUserData } from '@store/information';
 import { CardMidContent, RegularCard, SpecialCard } from '@components/Card';
 import styled from 'styled-components';
 import {
@@ -9,6 +8,8 @@ import {
   Flex,
   Heading,
 } from '@pancakeswap-libs/uikit';
+import { selectTokensAmount } from '@store/information';
+import type { TokenAmount } from '@pancakeswap-libs/sdk';
 
 const ResultContainer = styled.div`
   width: 100%;
@@ -21,12 +22,9 @@ const ResultContainer = styled.div`
 
 interface IResultProps {}
 export const Result = (props: IResultProps) => {
-  const tokenUserData = useSelector(selectTokenUserData);
-  const tokens = Object.entries(tokenUserData.tokens);
-  const netWorth = tokens.reduce(
-    (pre, [_, { amount, price }]) => pre + amount * Number(price?.price ?? 0),
-    0,
-  );
+  const tokensAmount = useSelector(selectTokensAmount);
+  /*
+  const tokens = Object.entries<TokenAmount>(tokensAmount);
   const items = tokens
     .sort(
       (a, b) =>
@@ -55,20 +53,19 @@ export const Result = (props: IResultProps) => {
         )
       );
     });
+    */
   return (
     <ResultContainer>
       <SpecialCard>
         <CardBody>
           <Heading color="contrast">Binance Coin (BNB)</Heading>
           <Flex justifyContent="space-between">
-            <CardMidContent color="invertedContrast">
-              $ {tokenUserData.BNBAmount * tokenUserData.BNBPrice}
-            </CardMidContent>
+            <CardMidContent color="invertedContrast">$ BNBPRICE</CardMidContent>
             <ArrowForwardIcon mt={30} color="primary" />
           </Flex>
         </CardBody>
       </SpecialCard>
-      {items}
+      ITEMS
     </ResultContainer>
   );
 };

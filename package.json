@@ -7,6 +7,7 @@
     "lint": "prettier --check \"src/**/*.{js,jsx,ts,tsx}\""
   },
   "dependencies": {
+    "@pancakeswap-libs/sdk": "^1.0.1",
     "@pancakeswap-libs/uikit": "^0.29.4",
     "@reduxjs/toolkit": "^1.5.1",
     "react": "^17.0.2",
@@ -19,6 +20,10 @@
     "styled-components": "^5.3.0"
   },
   "devDependencies": {
+    "@ethersproject/address": "^5.1.0",
+    "@ethersproject/contracts": "^5.1.1",
+    "@ethersproject/providers": "^5.1.2",
+    "@ethersproject/solidity": "^5.1.0",
     "@snowpack/plugin-dotenv": "^2.1.0",
     "@snowpack/plugin-react-refresh": "^2.5.0",
     "@snowpack/plugin-typescript": "^1.2.1",

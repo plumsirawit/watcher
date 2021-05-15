@@ -1,43 +1,40 @@
-import { call, put, select, takeLatest } from '@redux-saga/core/effects';
+import { fetchTokensDataFromUserInfo, TokensData } from '@models/token';
+import {
+  all,
+  call,
+  put,
+  race,
+  select,
+  takeLatest,
+} from '@redux-saga/core/effects';
 import {
   BEP20TransactionsReceived,
-  selectContractAddresses,
-  selectRawBEP20Transactions,
-  selectUserBEP20TokensInfo,
-} from '../transactions';
-import { fetchBNBPrice, fetchTokenPrice, TokenPrice } from '@models/token';
-import { pricesFailed, pricesReceived, BNBPriceReceived } from '.';
-import type { UserBEP20TokensInfo } from '@models/transactions';
+  BNBTransactionsReceived,
+  internalTransactionsReceived,
+  selectUserInfo,
+} from '@store/transactions';
+import type { UserInfo } from '@store/transactions/types';
+import { requestTokensData, tokensDataReceived } from '.';
 
-const getPricesFromContractAddresses = (
-  contractAddresses: string[],
-): Promise<Record<string, TokenPrice>> =>
-  Promise.all(
-    contractAddresses.map((tok) => Promise.all([tok, fetchTokenPrice(tok)])),
-  ).then(Object.fromEntries);
-
-function* watchRequestPrices() {
-  yield takeLatest(BEP20TransactionsReceived.type, requestPrices);
+function* watchFetchTokensData() {
+  yield takeLatest(
+    [
+      BEP20TransactionsReceived,
+      BNBTransactionsReceived,
+      internalTransactionsReceived,
+    ],
+    fetchTokens,
+  );
 }
-function* requestPrices() {
-  try {
-    const userBEP20TokensInfo: UserBEP20TokensInfo = yield select(
-      selectUserBEP20TokensInfo,
-    );
-    const contractAddresses: string[] = yield select(selectContractAddresses);
-    console.log('DEBUG', userBEP20TokensInfo);
-    const prices: Record<string, TokenPrice> = yield call(
-      getPricesFromContractAddresses,
-      contractAddresses,
-    );
-    yield put(pricesReceived(prices));
-    const BNBPrice: number = yield call(fetchBNBPrice);
-    yield put(BNBPriceReceived(BNBPrice));
-  } catch (e) {
-    yield put(pricesFailed(e?.message ?? ''));
-  }
+function* fetchTokens() {
+  const userInfo: UserInfo = yield select(selectUserInfo);
+  const tokensData: TokensData = yield call(
+    fetchTokensDataFromUserInfo,
+    userInfo,
+  );
+  yield put(tokensDataReceived(tokensData));
 }
 
 export default function* rootSaga() {
-  yield watchRequestPrices();
+  yield watchFetchTokensData();
 }

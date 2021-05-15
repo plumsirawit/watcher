@@ -1,33 +1,26 @@
-import type { TokenPrice } from '@models/token';
+import type { TokensData } from '@models/token';
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 
 export const informationSlices = createSlice({
   name: 'information',
   initialState: {
-    prices: {} as Record<string, TokenPrice>,
-    BNBPrice: 0,
+    tokensData: {} as TokensData,
     error: '',
   },
   reducers: {
-    pricesReceived: (
-      state,
-      action: PayloadAction<Record<string, TokenPrice>>,
-    ) => ({
+    requestTokensData: (state) => state,
+    tokensDataReceived: (state, action: PayloadAction<TokensData>) => ({
       ...state,
-      prices: action.payload,
+      tokensData: action.payload,
     }),
-    BNBPriceReceived: (state, action: PayloadAction<number>) => ({
-      ...state,
-      BNBPrice: action.payload,
-    }),
-    pricesFailed: (state, action: PayloadAction<string>) => ({
+    tokensDataFailed: (state, action: PayloadAction<string>) => ({
       ...state,
       error: action.payload,
     }),
   },
 });
 
-export const { pricesReceived, pricesFailed, BNBPriceReceived } =
+export const { requestTokensData, tokensDataReceived, tokensDataFailed } =
   informationSlices.actions;
 
 export * from './selectors';

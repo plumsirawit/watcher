@@ -1,2 +1,2 @@
 export * from './fetch';
-export type { TokenPrice } from './types';
+export type { TokensData } from './types';

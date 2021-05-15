@@ -2,27 +2,36 @@ import type {
   RawBEP20Transaction,
   UserBEP20TokensInfo,
 } from '@models/transactions';
+import { parseBigintIsh } from '@utils/pancakeswap-sdk';
+import JSBI from 'jsbi';
 import { TransactionParser } from './TransactionParser';
 
 class BEP20TransactionsParser extends TransactionParser<
   RawBEP20Transaction,
   UserBEP20TokensInfo
 > {
-  state = { tokens: {}, fee: 0 } as UserBEP20TokensInfo;
+  state = { tokens: {}, fee: JSBI.BigInt(0) } as UserBEP20TokensInfo;
   parseEach(txn: RawBEP20Transaction) {
-    const fee = (Number(txn.gasUsed) * Number(txn.gasPrice)) / 1e18;
-    const value = Number(txn.value) / Math.pow(10, Number(txn.tokenDecimal));
+    const fee = JSBI.multiply(
+      JSBI.BigInt(txn.gasUsed),
+      JSBI.BigInt(txn.gasPrice),
+    );
+    const value = JSBI.BigInt(txn.value);
     const isIn = txn.to.toLowerCase() === this.address.toLowerCase();
     const isOut = txn.from.toLowerCase() === this.address.toLowerCase();
     const tokenContract = txn.contractAddress;
     if (isIn) {
-      this.state.tokens[tokenContract] =
-        (this.state.tokens[tokenContract] ?? 0) + value;
+      this.state.tokens[tokenContract] = JSBI.add(
+        parseBigintIsh(this.state.tokens[tokenContract]) ?? JSBI.BigInt(0),
+        value,
+      );
     }
     if (isOut) {
-      this.state.tokens[tokenContract] =
-        (this.state.tokens[tokenContract] ?? 0) - value;
-      this.state.fee += fee;
+      this.state.tokens[tokenContract] = JSBI.subtract(
+        parseBigintIsh(this.state.tokens[tokenContract]) ?? JSBI.BigInt(0),
+        value,
+      );
+      this.state.fee = JSBI.add(parseBigintIsh(this.state.fee), fee);
     }
     return this.state;
   }

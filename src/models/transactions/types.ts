@@ -1,3 +1,5 @@
+import type { BigintIsh } from '@pancakeswap-libs/sdk';
+
 export type RawBEP20Transaction = {
   blockNumber: string;
   timeStamp: string;
@@ -21,8 +23,8 @@ export type RawBEP20Transaction = {
 };
 
 export interface UserBEP20TokensInfo {
-  tokens: Record<string, number>; // amount of each tokens
-  fee: number;
+  tokens: Record<string, BigintIsh>; // amount of each tokens (native)
+  fee: BigintIsh;
 }
 
 export type RawBNBTransaction = {
@@ -47,8 +49,8 @@ export type RawBNBTransaction = {
 };
 
 export interface UserBNBTokenInfo {
-  amount: number;
-  fee: number;
+  amount: BigintIsh;
+  fee: BigintIsh;
 }
 
 export type RawInternalTransaction = {

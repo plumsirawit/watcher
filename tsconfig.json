@@ -23,6 +23,11 @@
     "noEmit": true,
     /* Additional Options */
     "strict": true,
+    "alwaysStrict": true,
+    "noImplicitAny": true,
+    "strictFunctionTypes": true,
+    "strictNullChecks": true,
+    "strictPropertyInitialization": true,
     "skipLibCheck": true,
     "types": ["mocha", "snowpack-env"],
     "forceConsistentCasingInFileNames": true,

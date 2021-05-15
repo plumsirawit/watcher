@@ -1,6 +1,7 @@
-export interface TokenPrice {
-  name: string;
-  symbol: string;
-  price: string;
-  price_BNB: string;
+import type { CurrencyAmount, TokenAmount } from '@pancakeswap-libs/sdk';
+
+export interface TokensData {
+  tokens: Record<string, TokenAmount>;
+  BNBAmount: CurrencyAmount;
+  fee: CurrencyAmount;
 }
