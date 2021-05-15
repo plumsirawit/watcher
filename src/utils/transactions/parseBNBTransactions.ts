@@ -10,6 +10,9 @@ class BNBTransactionsParser extends TransactionParser<
 > {
   state = { amount: JSBI.BigInt(0), fee: JSBI.BigInt(0) } as UserBNBTokenInfo;
   parseEach(txn: IRawBNBTransaction) {
+    if (txn.isError !== '0') {
+      return this.state;
+    }
     const fee = JSBI.multiply(
       JSBI.BigInt(txn.gasUsed),
       JSBI.BigInt(txn.gasPrice),
