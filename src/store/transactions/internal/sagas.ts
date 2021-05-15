@@ -1,6 +1,6 @@
 import {
   fetchInternalTransactions,
-  RawInternalTransaction,
+  IRawInternalTransaction,
 } from '@models/transactions';
 import { call, put, select } from '@redux-saga/core/effects';
 import { selectAddress } from '@store/address';
@@ -9,7 +9,7 @@ import { internalTransactionsFailed, internalTransactionsReceived } from '..';
 export function* requestInternal() {
   try {
     const address: string = yield select(selectAddress);
-    const txn: RawInternalTransaction[] = yield call(
+    const txn: IRawInternalTransaction[] = yield call(
       fetchInternalTransactions,
       address,
     );

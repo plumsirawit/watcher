@@ -1,17 +1,17 @@
 import type {
-  RawInternalTransaction,
+  IRawInternalTransaction,
   UserBNBTokenInfo,
 } from '@models/transactions';
 import { parseBigintIsh } from '@utils/pancakeswap-sdk';
-import JSBI from 'jsbi';
+import { JSBI } from '@pancakeswap-libs/sdk';
 import { TransactionParser } from './TransactionParser';
 
 class InternalTransactionsParser extends TransactionParser<
-  RawInternalTransaction,
+  IRawInternalTransaction,
   UserBNBTokenInfo
 > {
   state = { amount: JSBI.BigInt(0), fee: JSBI.BigInt(0) } as UserBNBTokenInfo;
-  parseEach(txn: RawInternalTransaction) {
+  parseEach(txn: IRawInternalTransaction) {
     const value = JSBI.BigInt(txn.value);
     const isIn = txn.to.toLowerCase() === this.address.toLowerCase();
     const isOut = txn.from.toLowerCase() === this.address.toLowerCase();
@@ -35,6 +35,6 @@ class InternalTransactionsParser extends TransactionParser<
  * @returns user information about BNB and fees
  */
 export const parseInternalTransactions = (
-  txns: RawInternalTransaction[],
+  txns: IRawInternalTransaction[],
   address: string,
 ) => new InternalTransactionsParser(txns, address).parseAll();

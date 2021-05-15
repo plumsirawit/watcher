@@ -1,71 +1,75 @@
 import type { BigintIsh } from '@pancakeswap-libs/sdk';
+import * as t from 'io-ts';
 
-export type RawBEP20Transaction = {
-  blockNumber: string;
-  timeStamp: string;
-  hash: string;
-  nonce: string;
-  blockHash: string;
-  from: string;
-  contractAddress: string;
-  to: string;
-  value: string;
-  tokenName: string;
-  tokenSymbol: string;
-  tokenDecimal: string;
-  transactionIndex: string;
-  gas: string;
-  gasPrice: string;
-  gasUsed: string;
-  cumulativeGasUsed: string;
-  input: string;
-  confirmations: string;
-};
+export const RawBEP20Transaction = t.type({
+  blockNumber: t.string,
+  timeStamp: t.string,
+  hash: t.string,
+  nonce: t.string,
+  blockHash: t.string,
+  from: t.string,
+  contractAddress: t.string,
+  to: t.string,
+  value: t.string,
+  tokenName: t.string,
+  tokenSymbol: t.string,
+  tokenDecimal: t.string,
+  transactionIndex: t.string,
+  gas: t.string,
+  gasPrice: t.string,
+  gasUsed: t.string,
+  cumulativeGasUsed: t.string,
+  input: t.string,
+  confirmations: t.string,
+});
+export type IRawBEP20Transaction = t.TypeOf<typeof RawBEP20Transaction>;
 
 export interface UserBEP20TokensInfo {
   tokens: Record<string, BigintIsh>; // amount of each tokens (native)
   fee: BigintIsh;
 }
 
-export type RawBNBTransaction = {
-  blockNumber: string;
-  timeStamp: string;
-  hash: string;
-  nonce: string;
-  blockHash: string;
-  transactionIndex: string;
-  from: string;
-  to: string;
-  value: string;
-  gas: string;
-  gasPrice: string;
-  isError: string;
-  txreceipt_status: string;
-  input: string;
-  contractAddress: string;
-  cumulativeGasUsed: string;
-  gasUsed: string;
-  confirmations: string;
-};
+export const RawBNBTransaction = t.type({
+  blockNumber: t.string,
+  timeStamp: t.string,
+  hash: t.string,
+  nonce: t.string,
+  blockHash: t.string,
+  transactionIndex: t.string,
+  from: t.string,
+  to: t.string,
+  value: t.string,
+  gas: t.string,
+  gasPrice: t.string,
+  isError: t.string,
+  txreceipt_status: t.string,
+  input: t.string,
+  contractAddress: t.string,
+  cumulativeGasUsed: t.string,
+  gasUsed: t.string,
+  confirmations: t.string,
+});
+export type IRawBNBTransaction = t.TypeOf<typeof RawBNBTransaction>;
 
 export interface UserBNBTokenInfo {
   amount: BigintIsh;
   fee: BigintIsh;
 }
 
-export type RawInternalTransaction = {
-  blockNumber: string;
-  timeStamp: string;
-  hash: string;
-  from: string;
-  to: string;
-  value: string;
-  contractAddress: string;
-  input: string;
-  type: string;
-  gas: string;
-  gasUsed: string;
-  traceId: string;
-  isError: string;
-  errCode: string;
-};
+export const RawInternalTransaction = t.type({
+  blockNumber: t.string,
+  timeStamp: t.string,
+  hash: t.string,
+  from: t.string,
+  to: t.string,
+  value: t.string,
+  contractAddress: t.string,
+  input: t.string,
+  type: t.string,
+  gas: t.string,
+  gasUsed: t.string,
+  traceId: t.string,
+  isError: t.string,
+  errCode: t.string,
+});
+export type IRawInternalTransaction = t.TypeOf<typeof RawInternalTransaction>;

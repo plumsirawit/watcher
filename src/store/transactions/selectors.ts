@@ -14,7 +14,7 @@ export * from './BEP20/selectors';
 export * from './BNB/selectors';
 
 import { parseBigintIsh } from '@utils/pancakeswap-sdk';
-import JSBI from 'jsbi';
+import { JSBI } from '@pancakeswap-libs/sdk';
 
 export const selectContractAddresses = createSelector(
   selectUserBEP20TokensInfo,

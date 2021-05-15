@@ -1,5 +1,5 @@
 {
-  "include": ["src", "types"],
+  "include": ["src", "types", "node_modules/@pancakeswap-libs/sdk-v2"],
   "compilerOptions": {
     "module": "esnext",
     "target": "esnext",
@@ -17,7 +17,8 @@
       "@models/*": ["src/models/*"],
       "@components/*": ["src/components/*"],
       "@utils": ["src/utils"],
-      "@utils/*": ["src/utils/*"]
+      "@utils/*": ["src/utils/*"],
+      "@pancakeswap-libs/sdk": ["node_modules/@pancakeswap-libs/sdk-v2/dist/index"]
     },
     /* noEmit - Snowpack builds (emits) files, not tsc. */
     "noEmit": true,

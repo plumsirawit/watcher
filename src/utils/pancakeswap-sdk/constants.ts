@@ -1,4 +1,4 @@
-import JSBI from 'jsbi';
+import { JSBI } from '@pancakeswap-libs/sdk';
 
 // exports for external consumption
 export type BigintIsh = JSBI | bigint | string;

@@ -1,14 +1,15 @@
-import type { RawBNBTransaction, UserBNBTokenInfo } from '@models/transactions';
+import type { UserBNBTokenInfo } from '@models/transactions';
+import type { IRawBNBTransaction } from '@models/transactions/types';
 import { parseBigintIsh } from '@utils/pancakeswap-sdk';
-import JSBI from 'jsbi';
+import { JSBI } from '@pancakeswap-libs/sdk';
 import { TransactionParser } from './TransactionParser';
 
 class BNBTransactionsParser extends TransactionParser<
-  RawBNBTransaction,
+  IRawBNBTransaction,
   UserBNBTokenInfo
 > {
   state = { amount: JSBI.BigInt(0), fee: JSBI.BigInt(0) } as UserBNBTokenInfo;
-  parseEach(txn: RawBNBTransaction) {
+  parseEach(txn: IRawBNBTransaction) {
     const fee = JSBI.multiply(
       JSBI.BigInt(txn.gasUsed),
       JSBI.BigInt(txn.gasPrice),
@@ -37,6 +38,6 @@ class BNBTransactionsParser extends TransactionParser<
  * @returns user information about BNB and fees
  */
 export const parseBNBTransactions = (
-  txns: RawBNBTransaction[],
+  txns: IRawBNBTransaction[],
   address: string,
 ) => new BNBTransactionsParser(txns, address).parseAll();

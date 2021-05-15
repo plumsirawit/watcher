@@ -1,8 +1,8 @@
 export * from './fetch';
 export type {
-  RawBEP20Transaction,
+  IRawBEP20Transaction,
   UserBEP20TokensInfo,
-  RawBNBTransaction,
+  IRawBNBTransaction,
   UserBNBTokenInfo,
-  RawInternalTransaction,
+  IRawInternalTransaction,
 } from './types';

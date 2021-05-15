@@ -1,24 +1,24 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 
 import type {
-  RawBEP20Transaction,
-  RawBNBTransaction,
-  RawInternalTransaction,
-} from '@models/transactions';
+  IRawBEP20Transaction,
+  IRawBNBTransaction,
+  IRawInternalTransaction,
+} from '@models/transactions/types';
 
 export const transactionsSlice = createSlice({
   name: 'transactions',
   initialState: {
-    BEP20Transactions: [] as RawBEP20Transaction[],
-    BNBTransactions: [] as RawBNBTransaction[],
-    internalTransactions: [] as RawInternalTransaction[],
+    BEP20Transactions: [] as IRawBEP20Transaction[],
+    BNBTransactions: [] as IRawBNBTransaction[],
+    internalTransactions: [] as IRawInternalTransaction[],
     error: '',
   },
   reducers: {
     requestBEP20Transactions: (state) => state,
     BEP20TransactionsReceived: (
       state,
-      action: PayloadAction<RawBEP20Transaction[]>,
+      action: PayloadAction<IRawBEP20Transaction[]>,
     ) => ({
       ...state,
       BEP20Transactions: action.payload,
@@ -30,7 +30,7 @@ export const transactionsSlice = createSlice({
     requestBNBTransactions: (state) => state,
     BNBTransactionsReceived: (
       state,
-      action: PayloadAction<RawBNBTransaction[]>,
+      action: PayloadAction<IRawBNBTransaction[]>,
     ) => ({
       ...state,
       BNBTransactions: action.payload,
@@ -42,7 +42,7 @@ export const transactionsSlice = createSlice({
     requestInternalTransactions: (state) => state,
     internalTransactionsReceived: (
       state,
-      action: PayloadAction<RawInternalTransaction[]>,
+      action: PayloadAction<IRawInternalTransaction[]>,
     ) => ({
       ...state,
       internalTransactions: action.payload,

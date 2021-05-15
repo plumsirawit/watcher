@@ -19,7 +19,8 @@ module.exports = {
     "@store": "./src/store",
     "@models": "./src/models",
     "@components": "./src/components",
-    "@utils": "./src/utils"
+    "@utils": "./src/utils",
+    "@pancakeswap-libs/sdk": "@pancakeswap-libs/sdk-v2/dist/sdk-v2.esm.js"
   },
   routes: [
     /* Enable an SPA Fallback in development: */

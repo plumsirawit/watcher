@@ -1,5 +1,13 @@
 import { encodeQuery, APIKEY } from '@utils';
+import { fold } from 'fp-ts/lib/Either';
+import { pipe } from 'fp-ts/lib/function';
+import * as t from 'io-ts';
 import type {
+  IRawBEP20Transaction,
+  IRawBNBTransaction,
+  IRawInternalTransaction,
+} from './types';
+import {
   RawBEP20Transaction,
   RawBNBTransaction,
   RawInternalTransaction,
@@ -7,7 +15,7 @@ import type {
 
 export const fetchBEP20Transactions = async (
   address: string,
-): Promise<RawBEP20Transaction[]> => {
+): Promise<IRawBEP20Transaction[]> => {
   const result = await fetch(
     'https://api.bscscan.com/api?' +
       encodeQuery({
@@ -20,7 +28,18 @@ export const fetchBEP20Transactions = async (
   );
   const response = await result.json();
   if (response.message === 'OK') {
-    return response.result;
+    return pipe(
+      t.array(RawBEP20Transaction).decode(response.result),
+      fold(
+        (left) => {
+          throw Error(
+            'fetchBEP20Transactions type error ' +
+              left.map((err) => err.message).join(', '),
+          );
+        },
+        (right) => right,
+      ),
+    );
   } else {
     throw Error(`fetchBEP20Transactions API error [${response.message}]`);
   }
@@ -28,7 +47,7 @@ export const fetchBEP20Transactions = async (
 
 export const fetchBNBTransactions = async (
   address: string,
-): Promise<RawBNBTransaction[]> => {
+): Promise<IRawBNBTransaction[]> => {
   const result = await fetch(
     'https://api.bscscan.com/api?' +
       encodeQuery({
@@ -41,7 +60,18 @@ export const fetchBNBTransactions = async (
   );
   const response = await result.json();
   if (response.message === 'OK') {
-    return response.result;
+    return pipe(
+      t.array(RawBNBTransaction).decode(response.result),
+      fold(
+        (left) => {
+          throw Error(
+            'fetchBNBTransactions type error ' +
+              left.map((err) => err.message).join(', '),
+          );
+        },
+        (right) => right,
+      ),
+    );
   } else {
     throw Error(`fetchBNBTransactions API error [${response.message}]`);
   }
@@ -49,7 +79,7 @@ export const fetchBNBTransactions = async (
 
 export const fetchInternalTransactions = async (
   address: string,
-): Promise<RawInternalTransaction[]> => {
+): Promise<IRawInternalTransaction[]> => {
   const result = await fetch(
     'https://api.bscscan.com/api?' +
       encodeQuery({
@@ -62,7 +92,18 @@ export const fetchInternalTransactions = async (
   );
   const response = await result.json();
   if (response.message === 'OK') {
-    return response.result;
+    return pipe(
+      t.array(RawInternalTransaction).decode(response.result),
+      fold(
+        (left) => {
+          throw Error(
+            'fetchInternalTransactions type error ' +
+              left.map((err) => err.message).join(', '),
+          );
+        },
+        (right) => right,
+      ),
+    );
   } else {
     throw Error(`fetchInternalTransactions API error [${response.message}]`);
   }

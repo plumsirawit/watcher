@@ -1,7 +1,6 @@
 import invariant from 'tiny-invariant';
 import warning from 'tiny-warning';
-import JSBI from 'jsbi';
-import { getAddress } from '@ethersproject/address';
+import { JSBI } from '@pancakeswap-libs/sdk';
 
 import {
   BigintIsh,
@@ -28,6 +27,7 @@ export function validateSolidityTypeInstance(
 }
 
 // warns if addresses are not checksummed
+/*
 export function validateAndParseAddress(address: string): string {
   try {
     const checksummedAddress = getAddress(address);
@@ -37,6 +37,7 @@ export function validateAndParseAddress(address: string): string {
     invariant(false, `${address} is not a valid address.`);
   }
 }
+*/
 
 export function parseBigintIsh(bigintIsh: BigintIsh): JSBI {
   return bigintIsh instanceof JSBI
