@@ -2,7 +2,7 @@
   "scripts": {
     "start": "snowpack dev",
     "build": "snowpack build",
-    "test": "web-test-runner \"src/**/*.test.tsx\"",
+    "test": "web-test-runner \"src/**/*.test.tsx\" --node-resolve --puppeteer",
     "format": "prettier --write \"src/**/*.{js,jsx,ts,tsx}\"",
     "lint": "prettier --check \"src/**/*.{js,jsx,ts,tsx}\""
   },
@@ -35,6 +35,7 @@
     "@types/snowpack-env": "^2.3.3",
     "@types/styled-components": "^5.1.9",
     "@web/test-runner": "^0.13.3",
+    "@web/test-runner-puppeteer": "^0.10.0",
     "chai": "^4.3.4",
     "ethers": "5.0.32",
     "prettier": "^2.2.1",
