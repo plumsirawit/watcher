@@ -11,7 +11,7 @@ export const TokenBalance = t.type({
 });
 
 const constructTest = (address: string) =>
-  it(`returns correct balance on address ${address}`, async () => {
+  it(`returns correct BNB balance on address ${address}`, async () => {
     const transactions = await fetchBNBTransactions(address);
     // todo: count internal txns, fees, etc
     const tokenInfo = parseBNBTransactions(transactions, address);
@@ -20,7 +20,7 @@ const constructTest = (address: string) =>
     expect(amount).to.equals(balance.result);
   });
 
-describe('parseBEP20Transactions', () => {
+describe('parseBNBransactions', () => {
   // These are random addresses found on bscscan
   constructTest('0x84DA89224132291c4D1B3B3AAC60c43B74A7c16b');
   constructTest('0x7AE2F5B9e386cd1B50A4550696D957cB4900f03a');

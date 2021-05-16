@@ -7,7 +7,7 @@ export function waitSequential<T>(
       return new Promise<V>((res) => setTimeout(() => res(data), time));
     };
   return thunks.reduce(
-    (pre, cur) => pre.then(delay(250)).then(cur),
+    (pre, cur) => pre.then(delay(1000)).then(cur),
     initialValue,
   );
 }

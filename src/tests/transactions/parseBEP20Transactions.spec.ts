@@ -7,7 +7,7 @@ import * as t from 'io-ts';
 import { waitSequential } from '../utils/waitSequential';
 
 const constructTest = (address: string) =>
-  it(`returns correct balance on address ${address}`, async () => {
+  it(`returns correct BEP-20 balance on address ${address}`, async () => {
     const transactions = await fetchBEP20Transactions(address);
     const tokenInfo = parseBEP20Transactions(transactions, address);
     const thunks = Object.keys(tokenInfo.tokens).map(
