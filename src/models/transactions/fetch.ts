@@ -104,6 +104,8 @@ export const fetchInternalTransactions = async (
         (right) => right,
       ),
     );
+  } else if (response.message === 'No transactions found') {
+    return [];
   } else {
     throw Error(`fetchInternalTransactions API error [${response.message}]`);
   }

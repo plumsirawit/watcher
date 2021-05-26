@@ -10,13 +10,14 @@ class BNBTransactionsParser extends TransactionParser<
 > {
   state = { amount: JSBI.BigInt(0), fee: JSBI.BigInt(0) } as UserBNBTokenInfo;
   parseEach(txn: IRawBNBTransaction) {
-    if (txn.isError !== '0') {
-      return this.state;
-    }
     const fee = JSBI.multiply(
       JSBI.BigInt(txn.gasUsed),
       JSBI.BigInt(txn.gasPrice),
     );
+    if (txn.isError !== '0') {
+      this.state.fee = JSBI.add(parseBigintIsh(this.state.fee), fee);
+      return this.state;
+    }
     const value = JSBI.BigInt(txn.value);
     const isIn = txn.to.toLowerCase() === this.address.toLowerCase();
     const isOut = txn.from.toLowerCase() === this.address.toLowerCase();
