@@ -1,5 +1,15 @@
-import type { TokensData } from '@models/token';
+import { BigintIsh } from '@pancakeswap-libs/sdk';
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
+import {
+  SCurrencyAmount,
+  STokenAmount,
+} from '@models/utils/serializable-types';
+
+export interface TokensData {
+  tokens: Record<string, STokenAmount>;
+  BNBAmount: SCurrencyAmount;
+  fee: SCurrencyAmount;
+}
 
 export const informationSlices = createSlice({
   name: 'information',
@@ -8,7 +18,7 @@ export const informationSlices = createSlice({
     error: '',
   },
   reducers: {
-    requestTokensData: (state) => state,
+    tokensDataRequested: (state) => state,
     tokensDataReceived: (state, action: PayloadAction<TokensData>) => ({
       ...state,
       tokensData: action.payload,
@@ -20,7 +30,7 @@ export const informationSlices = createSlice({
   },
 });
 
-export const { requestTokensData, tokensDataReceived, tokensDataFailed } =
+export const { tokensDataRequested, tokensDataReceived, tokensDataFailed } =
   informationSlices.actions;
 
 export * from './selectors';

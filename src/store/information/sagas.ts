@@ -1,32 +1,20 @@
-import { fetchTokensDataFromUserInfo, TokensData } from '@models/token';
+import { fetchTokensDataFromUserInfo } from '@models/token';
+import { all, call, put, select, takeLatest } from '@redux-saga/core/effects';
 import {
-  all,
-  call,
-  put,
-  race,
-  select,
-  takeLatest,
-} from '@redux-saga/core/effects';
-import {
-  BEP20TransactionsReceived,
-  BNBTransactionsReceived,
-  internalTransactionsReceived,
+  BEP20AmountsReceived,
+  BNBAmountsReceived,
   selectUserInfo,
 } from '@store/transactions';
 import type { UserInfo } from '@store/transactions/types';
-import { requestTokensData, tokensDataReceived } from '.';
+import { tokensDataRequested, tokensDataReceived } from '.';
+import type { TokensData } from '.';
 
 function* watchFetchTokensData() {
-  yield takeLatest(
-    [
-      BEP20TransactionsReceived,
-      BNBTransactionsReceived,
-      internalTransactionsReceived,
-    ],
-    fetchTokens,
-  );
+  yield takeLatest([BEP20AmountsReceived, BNBAmountsReceived], fetchTokens);
 }
+
 function* fetchTokens() {
+  yield put(tokensDataRequested());
   const userInfo: UserInfo = yield select(selectUserInfo);
   const tokensData: TokensData = yield call(
     fetchTokensDataFromUserInfo,
@@ -36,5 +24,5 @@ function* fetchTokens() {
 }
 
 export default function* rootSaga() {
-  yield watchFetchTokensData();
+  yield all([watchFetchTokensData()]);
 }

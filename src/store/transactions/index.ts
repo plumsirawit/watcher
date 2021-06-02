@@ -5,6 +5,7 @@ import type {
   IRawBNBTransaction,
   IRawInternalTransaction,
 } from '@models/transactions/types';
+import { BigintIsh, JSBI } from '@pancakeswap-libs/sdk';
 
 export const transactionsSlice = createSlice({
   name: 'transactions',
@@ -12,6 +13,8 @@ export const transactionsSlice = createSlice({
     BEP20Transactions: [] as IRawBEP20Transaction[],
     BNBTransactions: [] as IRawBNBTransaction[],
     internalTransactions: [] as IRawInternalTransaction[],
+    BEP20Amounts: {} as Record<string, BigintIsh>,
+    BNBAmounts: JSBI.BigInt(0) as BigintIsh,
     error: '',
   },
   reducers: {
@@ -51,6 +54,25 @@ export const transactionsSlice = createSlice({
       ...state,
       error: action.payload,
     }),
+    BEP20AmountsReceived: (
+      state,
+      action: PayloadAction<Record<string, BigintIsh>>,
+    ) => ({
+      ...state,
+      BEP20Amounts: action.payload,
+    }),
+    BEP20AmountsFailed: (state, action: PayloadAction<string>) => ({
+      ...state,
+      error: action.payload,
+    }),
+    BNBAmountsReceived: (state, action: PayloadAction<BigintIsh>) => ({
+      ...state,
+      BNBAmounts: action.payload,
+    }),
+    BNBAmountsFailed: (state, action: PayloadAction<string>) => ({
+      ...state,
+      error: action.payload,
+    }),
   },
 });
 
@@ -64,6 +86,10 @@ export const {
   requestInternalTransactions,
   internalTransactionsReceived,
   internalTransactionsFailed,
+  BEP20AmountsReceived,
+  BEP20AmountsFailed,
+  BNBAmountsReceived,
+  BNBAmountsFailed,
 } = transactionsSlice.actions;
 
 export * from './selectors';

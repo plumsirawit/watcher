@@ -7,7 +7,16 @@ import {
 } from '@pancakeswap-libs/sdk';
 import type { UserInfo } from '@store/transactions/types';
 import { JsonRpcProvider } from '@ethersproject/providers';
+import { TokensData } from '@store/information';
 const provider = new JsonRpcProvider('https://bsc-dataseed1.binance.org/');
+
+const fetchTokenNameAndSymbol = async (token: string) => {
+  const response = await fetch(
+    `https://api.pancakeswap.info/api/v2/tokens/${token}`,
+  );
+  const info = await response.json();
+  return info.data;
+};
 
 /**
  * @todo: use https://github.com/pancakeswap/pancake-swap-interface-v1/blob/76dd2ce0cc15205166c8352f3d7978170ce5a5d4/src/hooks/Trades.ts#L87 instead of linear approximation.
@@ -18,19 +27,21 @@ export const fetchTokensDataFromUserInfo = async ({
   BNBAmount,
   tokens,
   fee,
-}: UserInfo) => {
-  const tokenAmounts: Record<string, TokenAmount> = Object.fromEntries(
-    await Promise.all(
-      Object.entries(tokens).map(async ([token, amount]) => {
-        const tokenData = await Fetcher.fetchTokenData(
-          ChainId.MAINNET,
-          token,
-          provider,
-        );
-        return [token, new TokenAmount(tokenData, amount)];
-      }) as Promise<[string, TokenAmount]>[],
-    ),
-  );
+}: UserInfo): Promise<TokensData> => {
+  const tokenAmounts = (await Promise.all(
+    Object.entries(tokens).map(async ([token, amount]) => {
+      const { name = '', symbol = undefined } =
+        (await fetchTokenNameAndSymbol(token)) ?? {};
+      const tokenData = await Fetcher.fetchTokenData(
+        ChainId.MAINNET,
+        token,
+        provider,
+        symbol,
+        name,
+      );
+      return [token, new TokenAmount(tokenData, amount)];
+    }),
+  ).then(Object.fromEntries)) as Record<string, TokenAmount>;
   return {
     tokens: tokenAmounts,
     BNBAmount: CurrencyAmount.ether(BNBAmount),
