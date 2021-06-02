@@ -1,5 +1,6 @@
 import {
   ChainId,
+  Currency,
   CurrencyAmount,
   Fetcher,
   TokenAmount,
@@ -8,6 +9,11 @@ import {
 import type { UserInfo } from '@store/transactions/types';
 import { JsonRpcProvider } from '@ethersproject/providers';
 import { TokensData } from '@store/information';
+import {
+  SCurrency,
+  SCurrencyAmount,
+  STokenAmount,
+} from '@models/utils/serializable-types';
 const provider = new JsonRpcProvider('https://bsc-dataseed1.binance.org/');
 
 const fetchTokenNameAndSymbol = async (token: string) => {
@@ -17,6 +23,42 @@ const fetchTokenNameAndSymbol = async (token: string) => {
   const info = await response.json();
   return info.data;
 };
+
+const serializeCurrency = ({
+  decimals,
+  symbol,
+  name,
+}: Currency): SCurrency => ({
+  decimals,
+  symbol,
+  name,
+});
+const serializeCurrencyAmount = ({
+  currency,
+  numerator,
+  denominator,
+}: CurrencyAmount): SCurrencyAmount => ({
+  currency: serializeCurrency(currency),
+  numerator,
+  denominator,
+});
+const serializeTokenAmount = ({
+  currency,
+  token,
+  numerator,
+  denominator,
+}: TokenAmount): STokenAmount => ({
+  currency: serializeCurrency(currency),
+  token: {
+    decimals: token.decimals,
+    symbol: token.symbol,
+    name: token.name,
+    chainId: token.chainId,
+    address: token.address,
+  },
+  numerator,
+  denominator,
+});
 
 /**
  * @todo: use https://github.com/pancakeswap/pancake-swap-interface-v1/blob/76dd2ce0cc15205166c8352f3d7978170ce5a5d4/src/hooks/Trades.ts#L87 instead of linear approximation.
@@ -39,13 +81,13 @@ export const fetchTokensDataFromUserInfo = async ({
         symbol,
         name,
       );
-      return [token, new TokenAmount(tokenData, amount)];
+      return [token, serializeTokenAmount(new TokenAmount(tokenData, amount))];
     }),
-  ).then(Object.fromEntries)) as Record<string, TokenAmount>;
+  ).then(Object.fromEntries)) as Record<string, STokenAmount>;
   return {
     tokens: tokenAmounts,
-    BNBAmount: CurrencyAmount.ether(BNBAmount),
-    fee: CurrencyAmount.ether(fee),
+    BNBAmount: serializeCurrencyAmount(CurrencyAmount.ether(BNBAmount)),
+    fee: serializeCurrencyAmount(CurrencyAmount.ether(fee)),
   };
 };
 
